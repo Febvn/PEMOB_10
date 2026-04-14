@@ -19,7 +19,7 @@
 
 ## Video Demo Navigasi (WEEK_5)
 
-![Demo Navigasi](demo-navigation.mp4)
+![Demo Navigasi](https://raw.githubusercontent.com/Febvn/pemob_5/WEEK_5/demo-navigation.mp4)
 
 ---
 
