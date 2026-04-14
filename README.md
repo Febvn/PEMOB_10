@@ -19,10 +19,7 @@
 
 ## Video Demo Navigasi (WEEK_5)
 
-<video width="100%" autoplay loop muted playsinline>
-  <source src="demo-navigation.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+![Demo Navigasi](demo-navigation.mp4)
 
 ---
 
