@@ -1,14 +1,25 @@
-# My Profile App - Pemob_4 (MVVM Edition)
+# My Profile & News App - Pemob_6 (KMP Edition)
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org/)
-[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.6.10-orange.svg?style=flat&logo=jetpack-compose)](https://www.jetbrains.com/lp/compose-multiplatform/)
-[![Architecture](https://img.shields.io/badge/Architecture-MVVM-brightgreen.svg?style=flat)](https://developer.android.com/topic/architecture)
+[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.10.0-orange.svg?style=flat&logo=jetpack-compose)](https://www.jetbrains.com/lp/compose-multiplatform/)
+[![Architecture](https://img.shields.io/badge/Architecture-MVVM%20%2B%20Repo-brightgreen.svg?style=flat)](https://developer.android.com/topic/architecture)
 
-**My Profile App - Pemob_4** merupakan aplikasi Multiplatform berbasis Kotlin yang mengimplementasikan arsitektur MVVM (Model-View-ViewModel). Aplikasi ini menawarkan sistem pencatatan cerdas dan manajemen profil skeuomorphic yang modern.
+**My Profile & News App** merupakan aplikasi Multiplatform berbasis Kotlin yang mengimplementasikan arsitektur MVVM (Model-View-ViewModel) dan Repository Pattern. Project ini menggabungkan manajemen profil skeuomorphic dengan sistem pembaca berita modern.
 
 ---
 
-## What's New in Pemob_4?
+## News Reader (WEEK_6) - NEW!
+
+Fitur pembaca berita canggih yang mengambil data dari API publik dengan performa optimal:
+*   **Networking:** Menggunakan **Ktor Client** untuk pengambilan data asinkron.
+*   **Data Parsing:** Integrasi **Kotlinx Serialization** yang efisien.
+*   **Image Loading:** Render gambar cepat dengan **Coil 3 (Multiplatform)**.
+*   **UX Features:** Implementasi *Pull to Refresh*, *Shimmer Loading*, dan *Error States*.
+*   **API Source:** [Spaceflight News API](https://api.spaceflightnewsapi.net/v4/articles/) (No Key Required).
+
+---
+
+## Previous Features (WEEK_4 & 5)
 
 *   **Integrated Note-Taking System:** Fitur manajemen catatan (Add, Edit, Delete, Favorite) berbasis teks yang efisien.
 *   **Professional MVVM Architecture:** Pemisahan tegas antara UI, ViewModel, dan Data.
@@ -46,9 +57,10 @@ Navigasi paket aplikasi mengikuti standar MVVM yang modular:
 ```text
 ├── composeApp/
 │   ├── src/commonMain/kotlin/com/example/myfirstkmpapp/
-│   │   ├── data/           # Layer Data (Note & Profile)
-│   │   ├── viewmodel/      # Layer Logika (Note & Profile ViewModel)
-│   │   ├── ui/             # Layer Presentasi (Screens & Components)
+│   │   ├── data/           # Layer Data (Profile)
+│   │   ├── news/           # Fitur News Reader (NEW!)
+│   │   ├── viewmodel/      # Layer Logika
+│   │   ├── ui/             # Layer Presentasi
 │   │   └── App.kt          # Main Entry Point
 ```
 
