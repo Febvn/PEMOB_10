@@ -33,9 +33,9 @@ Fitur pembaca berita ini sudah memenuhi kriteria Tugas Praktikum Minggu 6:
 
 Berikut adalah video pendek navigasi untuk membuktikan fungsionalitas Infinite Scroll, Kategori, dan kelancaran Refresh-nya:
 
-![Demo News](https://raw.githubusercontent.com/Febvn/pemob_5/WEEK_6/Demo%20mews.mp4)
+https://github.com/Febvn/pemob_6/raw/week-6/Demo%20mews.mp4
 
-*(Jika video Github tidak berjalan, Anda bisa mengunduh `Demo mews.mp4` secara lokal).*
+*(Jika player GitHub tidak memuat, Anda dapat mengeklik link di atas untuk mengunduhnya).*
 
 ### Screenshot Gallery (WEEK_6 News Platform)
 
@@ -102,8 +102,8 @@ Langkah-langkah menjalankan aplikasi pada platform Desktop (JVM):
 
 1. **Clone & Setup:**
    ```powershell
-   git clone https://github.com/Febvn/pemob_5.git
-   cd pemob_5
+   git clone https://github.com/Febvn/pemob_6.git
+   cd pemob_6
    ```
 2. **Run Perintah Berikut:**
    ```powershell
@@ -116,6 +116,7 @@ Langkah-langkah menjalankan aplikasi pada platform Desktop (JVM):
 
 **Febrian Valentino Nugroho**
 *   **GitHub:** [@Febvn](https://github.com/Febvn)
+*   **Branch Repo:** [github.com/Febvn/pemob_6/tree/week-6](https://github.com/Febvn/pemob_6/tree/week-6)
 *   **Kelas:** Pemrograman Mobile (Pemob)
 
 ---
