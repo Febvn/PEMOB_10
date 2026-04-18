@@ -8,8 +8,9 @@ import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.navigator.tab.Tab
 import cafe.adriel.voyager.navigator.tab.TabOptions
 import com.example.myfirstkmpapp.news.ui.screen.NewsListScreen
+import com.example.myfirstkmpapp.news.ui.viewmodel.NewsViewModel
 
-object NewsTab : Tab {
+class NewsTab(private val newsViewModel: NewsViewModel) : Tab {
     override val options: TabOptions
         @Composable
         get() = TabOptions(
@@ -20,6 +21,6 @@ object NewsTab : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(NewsListScreen())
+        Navigator(NewsListScreen(newsViewModel))
     }
 }

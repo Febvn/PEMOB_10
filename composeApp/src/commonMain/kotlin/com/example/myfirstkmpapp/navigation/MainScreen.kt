@@ -12,18 +12,19 @@ import cafe.adriel.voyager.navigator.tab.TabNavigator
 import com.example.myfirstkmpapp.ui.components.BottomNavBar
 import com.example.myfirstkmpapp.viewmodel.NoteViewModel
 import com.example.myfirstkmpapp.viewmodel.ProfileViewModel
+import com.example.myfirstkmpapp.news.ui.viewmodel.NewsViewModel
 
 class MainScreen(
     private val noteViewModel: NoteViewModel,
-    private val profileViewModel: ProfileViewModel
+    private val profileViewModel: ProfileViewModel,
+    private val newsViewModel: NewsViewModel
 ) : Screen {
 
     @Composable
     override fun Content() {
         val tabs = listOf(
-            NotesTab(noteViewModel),
-            FavoritesTab(noteViewModel),
-            NewsTab,
+            NewsTab(newsViewModel),
+            FavoritesTab(newsViewModel),
             ProfileTab(profileViewModel)
         )
 

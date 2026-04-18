@@ -8,14 +8,44 @@
 
 ---
 
-## News Reader (WEEK_6) - NEW!
+## News Reader (WEEK_6) - FINAL
 
-Fitur pembaca berita canggih yang mengambil data dari API publik dengan performa optimal:
-*   **Networking:** Menggunakan **Ktor Client** untuk pengambilan data asinkron.
-*   **Data Parsing:** Integrasi **Kotlinx Serialization** yang efisien.
-*   **Image Loading:** Render gambar cepat dengan **Coil 3 (Multiplatform)**.
-*   **UX Features:** Implementasi *Pull to Refresh*, *Shimmer Loading*, dan *Error States*.
-*   **API Source:** [Spaceflight News API](https://api.spaceflightnewsapi.net/v4/articles/) (No Key Required).
+Tugas Praktikum Minggu 6 berfokus pada melengkapi fitur integrasi data API dan membangun tampilan sistem pembaca berita modern layaknya aplikasi sosial media masa kini.
+
+Fitur pembaca berita ini sudah memenuhi kriteria Tugas Praktikum Minggu 6:
+*   **Networking:** Integrasi **Ktor Client** dengan penanganan state asinkron.
+*   **Architecture:** Implementasi **Repository Pattern** yang memisahkan logika data dan UI.
+*   **Data Parsing:** Pemrosesan JSON otomatis menggunakan **Kotlinx Serialization**.
+*   **UI States:** Penanganan lengkap untuk state **Loading** (Shimmer), **Success**, dan **Error** (Retry button).
+*   **Image Loading:** Menggunakan **Coil 3** untuk rendering gambar artikel secara dinamis.
+*   **Features:**
+    *   **TikTok-style Infinite Scroll:** Otomatis menambah deretan berita saat user scroll ke bagian bawah layar tanpa jeda.
+    *   **Instant Pull-to-Refresh:** Fungsi usap ke atas yang secara sekejap mengacak posisi *feed* berita di layar tanpa delay loading yang mengganggu.
+    *   **Search & Category Filter** (World, Business, Tech, Lifestyle, dll).
+    *   **Detail Screen** dengan kemampuan untuk membaca artikel asli langsung via browser eksternal.
+    *   **Favorites (Saved Content):** Simpan berita penting untuk dibaca lagi nanti.
+*   **API Sources:** 
+    *   Utama: [ok.surf API](https://ok.surf/api/v1/cors/news-feed)
+
+---
+
+## Video Demo News Reader (WEEK_6)
+
+Berikut adalah video pendek navigasi untuk membuktikan fungsionalitas Infinite Scroll, Kategori, dan kelancaran Refresh-nya:
+
+![Demo News](https://raw.githubusercontent.com/Febvn/pemob_5/WEEK_6/Demo%20mews.mp4)
+
+*(Jika video Github tidak berjalan, Anda bisa mengunduh `Demo mews.mp4` secara lokal).*
+
+### Screenshot Gallery (WEEK_6 News Platform)
+
+| News Landing Page | Article Detail |
+| :---: | :---: |
+| ![Landing Page](news_landing%20page.JPG) | ![Detail](article%20detail.JPG) |
+
+| Saved Content (Favs) | Error/Loading State |
+| :---: | :---: |
+| ![Saved](saved%20content.JPG) | ![Error](error_state.JPG) |
 
 ---
 
@@ -28,7 +58,7 @@ Fitur pembaca berita canggih yang mengambil data dari API publik dengan performa
 
 ---
 
-## Video Demo Navigasi (WEEK_5)
+## Video Demo Navigasi Dasar (WEEK_5)
 
 ![Demo Navigasi](https://raw.githubusercontent.com/Febvn/pemob_5/WEEK_5/demo-navigation.mp4)
 
@@ -36,10 +66,10 @@ Fitur pembaca berita canggih yang mengambil data dari API publik dengan performa
 
 ## Screenshot Gallery (Aplikasi Pemob_4)
 
-Berikut adalah galeri tampilan aplikasi sebagai representasi fungsionalitas sistem:
+Berikut adalah galeri tampilan profil dan manajemen catatan:
 
 ### Galeri 1: Navigasi & Utama
-| Profile View (Main) | Note List (Empty) | Note Detail |
+| Profile View | Note List (Empty) | Note Detail |
 | :---: | :---: | :---: |
 | ![Profile](1.JPG) | ![Empty List](2.JPG) | ![Note Detail](3.JPG) |
 
@@ -58,7 +88,7 @@ Navigasi paket aplikasi mengikuti standar MVVM yang modular:
 ├── composeApp/
 │   ├── src/commonMain/kotlin/com/example/myfirstkmpapp/
 │   │   ├── data/           # Layer Data (Profile)
-│   │   ├── news/           # Fitur News Reader (NEW!)
+│   │   ├── news/           # Fitur News Reader (WEEK 6)
 │   │   ├── viewmodel/      # Layer Logika
 │   │   ├── ui/             # Layer Presentasi
 │   │   └── App.kt          # Main Entry Point
@@ -82,11 +112,10 @@ Langkah-langkah menjalankan aplikasi pada platform Desktop (JVM):
 
 ---
 
-## Author (WEEK_5 Solution)
+## Author (WEEK_6 Solution)
 
 **Febrian Valentino Nugroho**
 *   **GitHub:** [@Febvn](https://github.com/Febvn)
-*   **Branch Repo:** [github.com/Febvn/pemob_5/tree/WEEK_5](https://github.com/Febvn/pemob_5/tree/WEEK_5)
 *   **Kelas:** Pemrograman Mobile (Pemob)
 
 ---

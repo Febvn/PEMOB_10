@@ -30,6 +30,7 @@ kotlin {
     jvm()
     
     sourceSets {
+        androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
@@ -56,12 +57,12 @@ kotlin {
             // Ktor & Serialization
             implementation(libs.ktor.client.core)
             implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx-json)
+            implementation(libs.ktor.serialization.kotlinx.json)
             implementation(libs.ktor.client.logging)
             
             // Coil
             implementation(libs.coil.compose)
-            implementation(libs.coil.network-ktor)
+            implementation(libs.coil.network.ktor)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -70,11 +71,8 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-        }
-        val iosMain by getting {
-            dependencies {
-                implementation(libs.ktor.client.darwin)
-            }
+            implementation(libs.ktor.client.java)
+            implementation(libs.kotlinx.datetime)
         }
     }
 }
