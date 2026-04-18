@@ -8,6 +8,15 @@ plugins {
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.composeHotReload)
     alias(libs.plugins.kotlinxSerialization)
+    alias(libs.plugins.sqldelight)
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("com.example.myfirstkmpapp.database")
+        }
+    }
 }
 
 kotlin {
@@ -34,6 +43,7 @@ kotlin {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
             implementation(libs.ktor.client.okhttp)
+            implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -63,6 +73,13 @@ kotlin {
             // Coil
             implementation(libs.coil.compose)
             implementation(libs.coil.network.ktor)
+            
+            // DataStore
+            implementation(libs.okio)
+            implementation(libs.datastore.preferences.core)
+            
+            // SQLDelight Coroutines
+            implementation(libs.sqldelight.coroutines.extensions)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
@@ -73,6 +90,7 @@ kotlin {
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.ktor.client.java)
             implementation(libs.kotlinx.datetime)
+            implementation(libs.sqldelight.sqlite.driver)
         }
     }
 }

@@ -13,6 +13,7 @@ import com.example.myfirstkmpapp.navigation.MainScreen
 import com.example.myfirstkmpapp.news.ui.viewmodel.NewsViewModel
 import com.example.myfirstkmpapp.news.repository.NewsRepository
 import com.example.myfirstkmpapp.news.data.remote.NewsApiService
+import com.example.myfirstkmpapp.viewmodel.SettingsViewModel
 
 /**
  * App — Entry point utama aplikasi
@@ -20,17 +21,29 @@ import com.example.myfirstkmpapp.news.data.remote.NewsApiService
  * Menerapkan SkeuomorphicTheme dan mengelola navigasi utama menggunakan Voyager.
  */
 @Composable
-fun App() {
+fun App(dependencyContainer: DependencyContainer) {
+    val settingsViewModel: SettingsViewModel = viewModel { 
+        SettingsViewModel(dependencyContainer.settingsRepository) 
+    }
+    val noteViewModel: NoteViewModel = viewModel { 
+        NoteViewModel(
+            dependencyContainer.noteRepository,
+            settingsViewModel.sortOrder
+        ) 
+    }
+    val newsViewModel: NewsViewModel = viewModel { 
+        NewsViewModel(NewsRepository(NewsApiService())) 
+    }
     val profileViewModel: ProfileViewModel = viewModel { ProfileViewModel() }
-    val noteViewModel: NoteViewModel = viewModel { NoteViewModel() }
-    val newsViewModel: NewsViewModel = viewModel { NewsViewModel(NewsRepository(NewsApiService())) }
+    
     val profileState by profileViewModel.uiState.collectAsState()
+    val isDarkMode by settingsViewModel.isDarkMode.collectAsState()
 
     SkeuomorphicTheme(
         palette = profileState.currentPalette,
-        isDark = profileState.isDarkTheme
+        isDark = isDarkMode
     ) {
-        Navigator(MainScreen(noteViewModel, profileViewModel, newsViewModel)) { navigator ->
+        Navigator(MainScreen(noteViewModel, profileViewModel, newsViewModel, settingsViewModel)) { navigator ->
             SlideTransition(navigator)
         }
     }

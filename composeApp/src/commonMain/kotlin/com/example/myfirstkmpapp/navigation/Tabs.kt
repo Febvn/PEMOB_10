@@ -19,6 +19,10 @@ import com.example.myfirstkmpapp.viewmodel.ProfileViewModel
 import com.example.myfirstkmpapp.news.ui.viewmodel.NewsViewModel
 import com.example.myfirstkmpapp.news.ui.screen.NewsFavoritesScreen
 
+import com.example.myfirstkmpapp.viewmodel.SettingsViewModel
+import com.example.myfirstkmpapp.ui.screen.SettingsScreen
+import androidx.compose.material.icons.filled.Settings
+
 class NotesTab(private val noteViewModel: NoteViewModel) : Tab {
     override val options: TabOptions
         @Composable
@@ -26,7 +30,7 @@ class NotesTab(private val noteViewModel: NoteViewModel) : Tab {
             val icon = rememberVectorPainter(Icons.Default.List)
             return remember {
                 TabOptions(
-                    index = 0u,
+                    index = 1u,
                     title = "Notes",
                     icon = icon
                 )
@@ -48,7 +52,7 @@ class FavoritesTab(private val newsViewModel: NewsViewModel) : Tab {
             val icon = rememberVectorPainter(Icons.Default.Star)
             return remember {
                 TabOptions(
-                    index = 1u,
+                    index = 2u,
                     title = "Saved",
                     icon = icon
                 )
@@ -70,7 +74,7 @@ class ProfileTab(private val profileViewModel: ProfileViewModel) : Tab {
             val icon = rememberVectorPainter(Icons.Default.Person)
             return remember {
                 TabOptions(
-                    index = 2u,
+                    index = 3u,
                     title = "Profile",
                     icon = icon
                 )
@@ -80,5 +84,25 @@ class ProfileTab(private val profileViewModel: ProfileViewModel) : Tab {
     @Composable
     override fun Content() {
         ProfileScreen(viewModel = profileViewModel)
+    }
+}
+
+class SettingsTab(private val settingsViewModel: SettingsViewModel) : Tab {
+    override val options: TabOptions
+        @Composable
+        get() {
+            val icon = rememberVectorPainter(Icons.Default.Settings)
+            return remember {
+                TabOptions(
+                    index = 4u,
+                    title = "Settings",
+                    icon = icon
+                )
+            }
+        }
+
+    @Composable
+    override fun Content() {
+        SettingsScreen(viewModel = settingsViewModel)
     }
 }

@@ -1,65 +1,98 @@
 package com.example.myfirstkmpapp.viewmodel
 
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.myfirstkmpapp.data.Note
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import com.example.myfirstkmpapp.repository.NoteRepository
+import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.launch
 
 data class NoteUiState(
     val notes: List<Note> = emptyList(),
-    val favorites: List<Note> = emptyList()
+    val favorites: List<Note> = emptyList(),
+    val isLoading: Boolean = false,
+    val searchQuery: String = ""
 )
 
-class NoteViewModel : ViewModel() {
-    private val _uiState = MutableStateFlow(NoteUiState())
+class NoteViewModel(
+    private val repository: NoteRepository,
+    private val sortOrderFlow: Flow<String> = flowOf("Newest")
+) : ViewModel() {
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery = _searchQuery.asStateFlow()
+
+    private val _uiState = MutableStateFlow(NoteUiState(isLoading = true))
     val uiState: StateFlow<NoteUiState> = _uiState.asStateFlow()
 
     init {
-        // Start with an empty note list as requested
-        _uiState.value = NoteUiState(
-            notes = emptyList(),
-            favorites = emptyList()
-        )
+        observeNotes()
     }
 
-    fun addNote(title: String, content: String) {
-        val currentTime = (0..100000000).random().toLong() // Mocked for speed
-        val newNote = Note(
-            id = "note_${currentTime}_${(0..1000).random()}",
-            title = title,
-            content = content,
-            timestamp = currentTime
-        )
-        val updatedNotes = _uiState.value.notes + newNote
-        updateState(updatedNotes)
+    private fun observeNotes() {
+        combine(_searchQuery, sortOrderFlow) { query, sort ->
+            query to sort
+        }.flatMapLatest { (query, sort) ->
+            val baseFlow = if (query.isBlank()) {
+                repository.getAllNotes()
+            } else {
+                repository.getNotesByQuery(query)
+            }
+            
+            baseFlow.map { notes ->
+                when (sort) {
+                    "Oldest" -> notes.sortedBy { it.timestamp }
+                    "A-Z" -> notes.sortedBy { it.title.lowercase() }
+                    else -> notes.sortedByDescending { it.timestamp } // Newest
+                }
+            }
+        }.onEach { notes ->
+            _uiState.update { it.copy(
+                notes = notes,
+                favorites = notes.filter { n -> n.isFavorite },
+                isLoading = false
+            ) }
+        }.launchIn(viewModelScope)
+    }
+
+    fun onSearchQueryChanged(query: String) {
+        _searchQuery.value = query
+        _uiState.update { it.copy(searchQuery = query) }
+    }
+
+    fun addNote(title: String, content: String, color: Long = 0xFFFFFFFF) {
+        viewModelScope.launch {
+            repository.insertNote(
+                Note(
+                    title = title,
+                    content = content,
+                    color = color,
+                    timestamp = kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
+                )
+            )
+        }
     }
 
     fun updateNote(updatedNote: Note) {
-        val updatedNotes = _uiState.value.notes.map { if (it.id == updatedNote.id) updatedNote else it }
-        updateState(updatedNotes)
-    }
-
-    fun deleteNote(id: String) {
-        val updatedNotes = _uiState.value.notes.filter { it.id != id }
-        updateState(updatedNotes)
-    }
-
-    fun toggleFavorite(id: String) {
-        val updatedNotes = _uiState.value.notes.map { 
-            if (it.id == id) it.copy(isFavorite = !it.isFavorite) else it 
+        viewModelScope.launch {
+            repository.updateNote(updatedNote)
         }
-        updateState(updatedNotes)
     }
 
-    private fun updateState(notes: List<Note>) {
-        _uiState.value = _uiState.value.copy(
-            notes = notes,
-            favorites = notes.filter { it.isFavorite }
-        )
+    fun deleteNote(id: Long) {
+        viewModelScope.launch {
+            repository.deleteNote(id)
+        }
     }
 
-    fun getNoteById(id: String?): Note? {
+    fun toggleFavorite(id: Long, currentIsFavorite: Boolean) {
+        viewModelScope.launch {
+            repository.toggleFavorite(id, !currentIsFavorite)
+        }
+    }
+
+    fun getNoteById(id: Long): Note? {
+        // Since we have a list in state, we can find it there for synchronous UI feedback
+        // or fetch from repo if needed. For Compose details, finding in state is fine.
         return _uiState.value.notes.find { it.id == id }
     }
 }

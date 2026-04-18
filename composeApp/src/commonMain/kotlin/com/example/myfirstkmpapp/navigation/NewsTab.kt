@@ -14,7 +14,7 @@ class NewsTab(private val newsViewModel: NewsViewModel) : Tab {
     override val options: TabOptions
         @Composable
         get() = TabOptions(
-            index = 3u,
+            index = 0u,
             title = "News",
             icon = rememberVectorPainter(Icons.Default.Newspaper)
         )

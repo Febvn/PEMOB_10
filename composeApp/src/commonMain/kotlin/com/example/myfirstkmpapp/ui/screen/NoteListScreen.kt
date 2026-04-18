@@ -69,14 +69,37 @@ class NoteListScreen(val viewModel: NoteViewModel) : Screen {
                     modifier = Modifier.padding(bottom = 24.dp)
                 )
 
-                if (uiState.notes.isEmpty()) {
+                OutlinedTextField(
+                    value = uiState.searchQuery,
+                    onValueChange = { viewModel.onSearchQueryChanged(it) },
+                    placeholder = { Text("Search notes...", color = palette.onSurfaceLight.copy(alpha = 0.5f)) },
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(bottom = 24.dp)
+                        .shadow(4.dp, MaterialTheme.shapes.medium, ambientColor = palette.shadowDark),
+                    shape = MaterialTheme.shapes.medium,
+                    colors = TextFieldDefaults.colors(
+                        focusedContainerColor = palette.surface,
+                        unfocusedContainerColor = palette.surface,
+                        focusedIndicatorColor = palette.primary,
+                        unfocusedIndicatorColor = palette.onSurfaceLight.copy(alpha = 0.2f),
+                        cursorColor = palette.primary
+                    ),
+                    singleLine = true
+                )
+
+                if (uiState.isLoading) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        CircularProgressIndicator(color = palette.primary)
+                    }
+                } else if (uiState.notes.isEmpty()) {
                     Box(
                         modifier = Modifier.fillMaxSize().padding(bottom = 80.dp),
                         contentAlignment = Alignment.Center
                     ) {
                         Column(horizontalAlignment = Alignment.CenterHorizontally) {
                             Text(
-                                text = "Empty Note List",
+                                text = if (uiState.searchQuery.isEmpty()) "Empty Note List" else "No matches found",
                                 style = MaterialTheme.typography.titleMedium.copy(
                                     fontWeight = FontWeight.Bold,
                                     color = palette.onSurfaceLight.copy(alpha = 0.5f)
@@ -84,7 +107,7 @@ class NoteListScreen(val viewModel: NoteViewModel) : Screen {
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Text(
-                                text = "Start by creating your first note",
+                                text = if (uiState.searchQuery.isEmpty()) "Start by creating your first note" else "Try adjusting your search query",
                                 style = MaterialTheme.typography.bodySmall.copy(
                                     color = palette.onSurfaceLight.copy(alpha = 0.4f)
                                 )
@@ -96,11 +119,11 @@ class NoteListScreen(val viewModel: NoteViewModel) : Screen {
                         verticalArrangement = Arrangement.spacedBy(16.dp),
                         contentPadding = PaddingValues(bottom = 120.dp)
                     ) {
-                        items(uiState.notes) { note ->
+                        items(uiState.notes, key = { it.id }) { note ->
                             NoteItem(
                                 note = note,
                                 onClick = { navigator.push(NoteDetailScreen(note.id, viewModel)) },
-                                onFavoriteClick = { viewModel.toggleFavorite(note.id) }
+                                onFavoriteClick = { viewModel.toggleFavorite(note.id, note.isFavorite) }
                             )
                         }
                     }

@@ -1,10 +1,35 @@
-# My Profile & News App - Pemob_6 (KMP Edition)
+# My Profile & News App - Pemob_7 (SQLDelight Edition)
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org/)
 [![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.10.0-orange.svg?style=flat&logo=jetpack-compose)](https://www.jetbrains.com/lp/compose-multiplatform/)
-[![Architecture](https://img.shields.io/badge/Architecture-MVVM%20%2B%20Repo-brightgreen.svg?style=flat)](https://developer.android.com/topic/architecture)
+[![Database](https://img.shields.io/badge/Database-SQLDelight-blue.svg?style=flat)](https://cashapp.github.io/sqldelight/)
 
-**My Profile & News App** merupakan aplikasi Multiplatform berbasis Kotlin yang mengimplementasikan arsitektur MVVM (Model-View-ViewModel) dan Repository Pattern. Project ini menggabungkan manajemen profil skeuomorphic dengan sistem pembaca berita modern.
+---
+
+## Notes App (WEEK_7) - DATABASE & PREFERENCES
+
+Tugas Praktikum Minggu 7 berfokus pada persistensi data lokal menggunakan database relasional dan penyimpanan preferensi pengguna.
+
+### Fitur Utama Week 7:
+*   **SQLDelight Database:** Implementasi database lokal yang *type-safe* untuk menyimpan seluruh catatan (Notes) secara permanen.
+*   **Offline-First:** Data tersimpan sepenuhnya di perangkat (Android & Desktop), aplikasi tetap berfungsi tanpa koneksi internet.
+*   **CRUD Operations:** Mendukung pembuatan (Create), pembacaan (Read), pembaruan (Update), dan penghapusan (Delete) catatan secara utuh.
+*   **Search Functionality:** Fitur pencarian catatan berdasarkan judul atau isi konten secara *real-time*.
+*   **DataStore Settings:** Penyimpanan preferensi tema (Dark/Light mode) dan urutan sortir data (Newest, Oldest, A-Z) menggunakan **Jetpack DataStore**.
+*   **UI States:** Penanganan state UI yang matang (Loading spinner, Empty state, Search not found).
+
+### Database Schema (SQLDelight)
+```sql
+CREATE TABLE NoteEntity (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    color INTEGER NOT NULL,
+    isFavorite INTEGER NOT NULL DEFAULT 0,
+    timestamp INTEGER NOT NULL,
+    cloudId TEXT
+);
+```
 
 ---
 
@@ -104,6 +129,7 @@ Langkah-langkah menjalankan aplikasi pada platform Desktop (JVM):
    ```powershell
    git clone https://github.com/Febvn/pemob_6.git
    cd pemob_6
+   git checkout week-7
    ```
 2. **Run Perintah Berikut:**
    ```powershell
@@ -112,11 +138,11 @@ Langkah-langkah menjalankan aplikasi pada platform Desktop (JVM):
 
 ---
 
-## Author (WEEK_6 Solution)
+## Author (WEEK_7 Solution)
 
 **Febrian Valentino Nugroho**
 *   **GitHub:** [@Febvn](https://github.com/Febvn)
-*   **Branch Repo:** [github.com/Febvn/pemob_6/tree/week-6](https://github.com/Febvn/pemob_6/tree/week-6)
+*   **Branch Repo:** [github.com/Febvn/pemob_6/tree/week-7](https://github.com/Febvn/pemob_6/tree/week-7)
 *   **Kelas:** Pemrograman Mobile (Pemob)
 
 ---

@@ -24,7 +24,7 @@ import cafe.adriel.voyager.navigator.currentOrThrow
 import com.example.myfirstkmpapp.ui.theme.LocalSkeuPalette
 import com.example.myfirstkmpapp.viewmodel.NoteViewModel
 
-class NoteDetailScreen(private val noteId: String, private val viewModel: NoteViewModel) : Screen {
+class NoteDetailScreen(private val noteId: Long, private val viewModel: NoteViewModel) : Screen {
 
     @OptIn(ExperimentalMaterial3Api::class)
     @Composable
