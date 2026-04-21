@@ -36,24 +36,20 @@ CREATE TABLE IF NOT EXISTS NoteEntity (
 Klik link di bawah untuk melihat demonstrasi CRUD, Search, dan Offline Mode:
 - [Demo Local Storage dan Offline Mode](demo_local%20storage.mp4)
 
-### Gallery Tampilan Aplikasi
+## Gallery Tampilan Aplikasi
 
-#### Galeri 1: Navigasi dan Utama
+### Galeri 1: Navigasi dan Utama
 | Profile View (Main) | Note List (Empty) | Note Detail |
 |:---:|:---:|:---:|
-| ![Profile](setting_note%20functionf.JPG) | ![Empty List](there%20is%20a%20note.JPG) | ![Note Detail](note%20baru.JPG) |
+| ![Profile](1.JPG) | ![Empty List](2.JPG) | ![Note Detail](3.JPG) |
 
-#### Galeri 2: Fitur dan Modifikasi
+### Galeri 2: Fitur dan Modifikasi
 | Add Note Form | Note List View | Search dan Query |
 |:---:|:---:|:---:|
-| ![Add Note](note%20baru.JPG) | ![Note List](there%20is%202%20note.JPG) | ![Search](seaarch%20query%20funtcion.JPG) |
+| ![Add Note](4.JPG) | ![Note List](5.JPG) | ![Search](6.JPG) |
 
-### Lampiran Gambar Tambahan
-Berikut adalah detail fungsionalitas aplikasi yang didokumentasikan:
-- Tampilan Pengaturan dan Fungsi Note: ![setting_note functionf.JPG](setting_note%20functionf.JPG)
-- Tampilan Fungsi Pencarian: ![seaarch query funtcion.JPG](seaarch%20query%20funtcion.JPG)
-- Tampilan 1 Catatan: ![there is a note.JPG](there%20is%20a%20note.JPG)
-- Tampilan 2 Catatan: ![there is 2 note.JPG](there%20is%202%20note.JPG)
+### Dokumentasi Detail
+- Detail Modifikasi Sistem: ![7.JPG](7.JPG)
 
 ---
 **Pengembangan Aplikasi Mobile - ITERA 2024**  
