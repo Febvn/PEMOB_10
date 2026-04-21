@@ -40,6 +40,18 @@ CREATE TABLE IF NOT EXISTS NoteEntity (
 Klik link di bawah untuk melihat demonstrasi CRUD, Search, dan Offline Mode:
 - [📺 Demo Local Storage & Offline Mode](demo_local%20storage.mp4)
 
+## 📸 Screenshot Gallery (Representasi Fungsionalitas)
+
+### Galeri 1: Navigasi & Utama
+| Profile View (Main) | Note List (Empty) | Note Detail |
+|:---:|:---:|:---:|
+| ![Profile](setting_note%20functionf.JPG) | ![Empty List](there%20is%20a%20note.JPG) | ![Note Detail](note%20baru.JPG) |
+
+### Galeri 2: Fitur & Modifikasi
+| Add Note Form | Note List View | Search & Query |
+|:---:|:---:|:---:|
+| ![Add Note](note%20baru.JPG) | ![Note List](there%20is%202%20note.JPG) | ![Search](seaarch%20query%20funtcion.JPG) |
+
 ---
 **Pengembangan Aplikasi Mobile - ITERA 2024**  
 **Nama:** (Isi Nama Anda)  
