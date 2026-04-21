@@ -1,26 +1,25 @@
-# My Profile & News App - Pemob_7 (SQLDelight Edition)
+# Notes App - Tugas Praktikum Minggu 7 📝
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org/)
-[![Compose Multiplatform](https://img.shields.io/badge/Compose%20Multiplatform-1.10.0-orange.svg?style=flat&logo=jetpack-compose)](https://www.jetbrains.com/lp/compose-multiplatform/)
-[![Database](https://img.shields.io/badge/Database-SQLDelight-blue.svg?style=flat)](https://cashapp.github.io/sqldelight/)
+Upgrade Notes App dengan fitur SQLDelight untuk penyimpanan lokal, fitur pencarian, dan pengaturan tema menggunakan DataStore. Aplikasi ini mendukung penuh mode **Offline-First**.
 
----
+## 🚀 Fitur Utama
+- **CRUD Operations**: Tambah, Baca, Edit, dan Hapus catatan secara permanen.
+- **Local Storage (SQLDelight)**: Menggunakan SQLite untuk menyimpan data secara lokal di perangkat.
+- **Search Functionality**: Mencari catatan berdasarkan judul atau isi konten secara real-time.
+- **Settings & DataStore**: Menyimpan preferensi pengguna (Dark Mode & Sort Order) secara persisten.
+- **Favorite System**: Menandai catatan penting sebagai favorit.
+- **Offline-First**: Aplikasi berfungsi 100% tanpa koneksi internet.
 
-## Notes App (WEEK_7) - DATABASE & PREFERENCES
+## 🛠️ Tech Stack
+- **Kotlin Multiplatform (KMP)**: Target Desktop (JVM) & Android.
+- **Compose Multiplatform**: Untuk UI yang konsisten di berbagai platform.
+- **SQLDelight**: Database engine untuk persistensi data lokal.
+- **Jetpack DataStore**: Untuk menyimpan preferensi pengaturan sederhana.
+- **Voyager**: Untuk navigasi antar layar (Tabs & Stacks).
 
-Tugas Praktikum Minggu 7 berfokus pada persistensi data lokal menggunakan database relasional dan penyimpanan preferensi pengguna.
-
-### Fitur Utama Week 7:
-*   **SQLDelight Database:** Implementasi database lokal yang *type-safe* untuk menyimpan seluruh catatan (Notes) secara permanen.
-*   **Offline-First:** Data tersimpan sepenuhnya di perangkat (Android & Desktop), aplikasi tetap berfungsi tanpa koneksi internet.
-*   **CRUD Operations:** Mendukung pembuatan (Create), pembacaan (Read), pembaruan (Update), dan penghapusan (Delete) catatan secara utuh.
-*   **Search Functionality:** Fitur pencarian catatan berdasarkan judul atau isi konten secara *real-time*.
-*   **DataStore Settings:** Penyimpanan preferensi tema (Dark/Light mode) dan urutan sortir data (Newest, Oldest, A-Z) menggunakan **Jetpack DataStore**.
-*   **UI States:** Penanganan state UI yang matang (Loading spinner, Empty state, Search not found).
-
-### Database Schema (SQLDelight)
+## 📊 Database Schema (SQLDelight)
 ```sql
-CREATE TABLE NoteEntity (
+CREATE TABLE IF NOT EXISTS NoteEntity (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     title TEXT NOT NULL,
     content TEXT NOT NULL,
@@ -31,122 +30,18 @@ CREATE TABLE NoteEntity (
 );
 ```
 
----
+## 📸 Screenshots & Demo
 
-## News Reader (WEEK_6) - FINAL
+### Tampilan Aplikasi (Notes & CRUD)
+![Tampilan Note Baru](note%20baru.JPG)
+*Dokumentasi pembuatan catatan baru dengan UI Skeuomorphic.*
 
-Tugas Praktikum Minggu 6 berfokus pada melengkapi fitur integrasi data API dan membangun tampilan sistem pembaca berita modern layaknya aplikasi sosial media masa kini.
-
-Fitur pembaca berita ini sudah memenuhi kriteria Tugas Praktikum Minggu 6:
-*   **Networking:** Integrasi **Ktor Client** dengan penanganan state asinkron.
-*   **Architecture:** Implementasi **Repository Pattern** yang memisahkan logika data dan UI.
-*   **Data Parsing:** Pemrosesan JSON otomatis menggunakan **Kotlinx Serialization**.
-*   **UI States:** Penanganan lengkap untuk state **Loading** (Shimmer), **Success**, dan **Error** (Retry button).
-*   **Image Loading:** Menggunakan **Coil 3** untuk rendering gambar artikel secara dinamis.
-*   **Features:**
-    *   **TikTok-style Infinite Scroll:** Otomatis menambah deretan berita saat user scroll ke bagian bawah layar tanpa jeda.
-    *   **Instant Pull-to-Refresh:** Fungsi usap ke atas yang secara sekejap mengacak posisi *feed* berita di layar tanpa delay loading yang mengganggu.
-    *   **Search & Category Filter** (World, Business, Tech, Lifestyle, dll).
-    *   **Detail Screen** dengan kemampuan untuk membaca artikel asli langsung via browser eksternal.
-    *   **Favorites (Saved Content):** Simpan berita penting untuk dibaca lagi nanti.
-*   **API Sources:** 
-    *   Utama: [ok.surf API](https://ok.surf/api/v1/cors/news-feed)
+### Video Demo (Offline Mode & Local Storage)
+Klik link di bawah untuk melihat demonstrasi CRUD, Search, dan Offline Mode:
+- [📺 Demo Local Storage & Offline Mode](demo_local%20storage.mp4)
 
 ---
-
-## Video Demo News Reader (WEEK_6)
-
-Berikut adalah video pendek navigasi untuk membuktikan fungsionalitas Infinite Scroll, Kategori, dan kelancaran Refresh-nya:
-
-https://github.com/Febvn/pemob_6/raw/week-6/Demo%20mews.mp4
-
-*(Jika player GitHub tidak memuat, Anda dapat mengeklik link di atas untuk mengunduhnya).*
-
-### Screenshot Gallery (WEEK_6 News Platform)
-
-| News Landing Page | Article Detail |
-| :---: | :---: |
-| ![Landing Page](news_landing%20page.JPG) | ![Detail](article%20detail.JPG) |
-
-| Saved Content (Favs) | Error/Loading State |
-| :---: | :---: |
-| ![Saved](saved%20content.JPG) | ![Error](error_state.JPG) |
-
----
-
-## Previous Features (WEEK_4 & 5)
-
-*   **Integrated Note-Taking System:** Fitur manajemen catatan (Add, Edit, Delete, Favorite) berbasis teks yang efisien.
-*   **Professional MVVM Architecture:** Pemisahan tegas antara UI, ViewModel, dan Data.
-*   **Dark Monochrome Design:** Estetika skeuomorphic yang elegan dengan palet warna monokrom.
-*   **Optimized Performance:** Kecepatan build maksimal dengan manajemen memori 2GB.
-
----
-
-## Video Demo Navigasi Dasar (WEEK_5)
-
-![Demo Navigasi](https://raw.githubusercontent.com/Febvn/pemob_5/WEEK_5/demo-navigation.mp4)
-
----
-
-## Screenshot Gallery (Aplikasi Pemob_4)
-
-Berikut adalah galeri tampilan profil dan manajemen catatan:
-
-### Galeri 1: Navigasi & Utama
-| Profile View | Note List (Empty) | Note Detail |
-| :---: | :---: | :---: |
-| ![Profile](1.JPG) | ![Empty List](2.JPG) | ![Note Detail](3.JPG) |
-
-### Galeri 2: Fitur & Modifikasi
-| Add Note Form | Note List View | Edit Profile |
-| :---: | :---: | :---: |
-| ![Add Note](4.JPG) | ![Note List](5.JPG) | ![Edit Profile](7.JPG) |
-
----
-
-## Struktur Proyek
-
-Navigasi paket aplikasi mengikuti standar MVVM yang modular:
-
-```text
-├── composeApp/
-│   ├── src/commonMain/kotlin/com/example/myfirstkmpapp/
-│   │   ├── data/           # Layer Data (Profile)
-│   │   ├── news/           # Fitur News Reader (WEEK 6)
-│   │   ├── viewmodel/      # Layer Logika
-│   │   ├── ui/             # Layer Presentasi
-│   │   └── App.kt          # Main Entry Point
-```
-
----
-
-## Instalasi & Cara Menjalankan
-
-Langkah-langkah menjalankan aplikasi pada platform Desktop (JVM):
-
-1. **Clone & Setup:**
-   ```powershell
-   git clone https://github.com/Febvn/pemob_6.git
-   cd pemob_6
-   git checkout week-7
-   ```
-2. **Run Perintah Berikut:**
-   ```powershell
-   ./gradlew :composeApp:run
-   ```
-
----
-
-## Author (WEEK_7 Solution)
-
-**Febrian Valentino Nugroho**
-*   **GitHub:** [@Febvn](https://github.com/Febvn)
-*   **Branch Repo:** [github.com/Febvn/pemob_6/tree/week-7](https://github.com/Febvn/pemob_6/tree/week-7)
-*   **Kelas:** Pemrograman Mobile (Pemob)
-
----
-
-## Lisensi
-
-Proyek ini dilisensikan di bawah **MIT License**.
+**Pengembangan Aplikasi Mobile - ITERA 2024**  
+**Nama:** (Isi Nama Anda)  
+**NIM:** (Isi NIM Anda)  
+**Repository:** [Febvn/pemob_7](https://github.com/Febvn/pemob_7) (Branch: week-7)

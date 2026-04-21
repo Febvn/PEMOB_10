@@ -1,5 +1,11 @@
 package com.example.myfirstkmpapp
 
-actual fun getPlatformName(): String {
-    return "Java ${System.getProperty("java.version")}"
+class JVMPlatform: Platform {
+    override val name: String = "Java ${System.getProperty("java.version")}"
 }
+
+actual fun getPlatform(): Platform = JVMPlatform()
+
+actual fun currentTimeMillis(): Long = System.currentTimeMillis()
+
+actual fun getPlatformName(): String = "Java ${System.getProperty("java.version")}"

@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import app.cash.sqldelight.coroutines.asFlow
 import app.cash.sqldelight.coroutines.mapToList
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.withContext
 
 class NoteRepository(private val database: AppDatabase) {
@@ -17,56 +16,61 @@ class NoteRepository(private val database: AppDatabase) {
     fun getAllNotes(): Flow<List<Note>> {
         return queries.getAllNotes()
             .asFlow()
-            .mapToList(Dispatchers.IO)
-            .map { entities -> entities.map { it.toNote() } }
+            .mapToList(Dispatchers.Default)
+            .map { entities ->
+                println("DB FLOW: Emitting ${entities.size} notes from database")
+                entities.map { it.toNote() }
+            }
     }
 
     fun getNotesByQuery(queryText: String): Flow<List<Note>> {
         return queries.getNotesByQuery(queryText)
             .asFlow()
-            .mapToList(Dispatchers.IO)
+            .mapToList(Dispatchers.Default)
             .map { entities -> entities.map { it.toNote() } }
     }
 
-    fun getFavoriteNotes(): Flow<List<Note>> {
-        return queries.getFavoriteNotes()
-            .asFlow()
-            .mapToList(Dispatchers.IO)
-            .map { entities -> entities.map { it.toNote() } }
+    suspend fun insertNote(note: Note) = withContext(Dispatchers.Default) {
+        println("DB ACTION: Attempting to insert note: '${note.title}'")
+        try {
+            database.transaction {
+                queries.insertNote(
+                    title = note.title,
+                    content = note.content,
+                    color = note.color,
+                    isFavorite = if (note.isFavorite) 1L else 0L,
+                    timestamp = note.timestamp,
+                    cloudId = null
+                )
+            }
+            println("DB ACTION: Insert SUCCESS")
+        } catch (e: Exception) {
+            println("DB ACTION: Insert FAILED: ${e.message}")
+            e.printStackTrace()
+        }
     }
 
-    suspend fun getNoteById(id: Long): Note? = withContext(Dispatchers.IO) {
-        queries.getNoteById(id).executeAsOneOrNull()?.toNote()
+    suspend fun updateNote(note: Note) = withContext(Dispatchers.Default) {
+        database.transaction {
+            queries.updateNote(
+                id = note.id,
+                title = note.title,
+                content = note.content,
+                color = note.color,
+                isFavorite = if (note.isFavorite) 1L else 0L,
+                timestamp = note.timestamp,
+                cloudId = null
+            )
+        }
     }
 
-    suspend fun insertNote(note: Note) = withContext(Dispatchers.IO) {
-        queries.insertNote(
-            title = note.title,
-            content = note.content,
-            color = note.color,
-            isFavorite = if (note.isFavorite) 1L else 0L,
-            timestamp = note.timestamp,
-            cloudId = null
-        )
+    suspend fun deleteNote(id: Long) = withContext(Dispatchers.Default) {
+        database.transaction {
+            queries.deleteNoteById(id)
+        }
     }
 
-    suspend fun updateNote(note: Note) = withContext(Dispatchers.IO) {
-        queries.updateNote(
-            id = note.id,
-            title = note.title,
-            content = note.content,
-            color = note.color,
-            isFavorite = if (note.isFavorite) 1L else 0L,
-            timestamp = note.timestamp,
-            cloudId = null
-        )
-    }
-
-    suspend fun deleteNote(id: Long) = withContext(Dispatchers.IO) {
-        queries.deleteNoteById(id)
-    }
-
-    suspend fun toggleFavorite(id: Long, isFavorite: Boolean) = withContext(Dispatchers.IO) {
+    suspend fun toggleFavorite(id: Long, isFavorite: Boolean) = withContext(Dispatchers.Default) {
         queries.updateFavoriteStatus(if (isFavorite) 1L else 0L, id)
     }
 

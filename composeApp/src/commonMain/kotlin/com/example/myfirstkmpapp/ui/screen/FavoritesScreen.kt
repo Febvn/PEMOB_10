@@ -80,7 +80,7 @@ class FavoritesScreen(private val viewModel: NoteViewModel) : Screen {
                             NoteItem(
                                 note = note,
                                 onClick = { navigator.push(NoteDetailScreen(note.id, viewModel)) },
-                                onFavoriteClick = { viewModel.toggleFavorite(note.id) }
+                                onFavoriteClick = { viewModel.toggleFavorite(note.id, note.isFavorite) }
                             )
                         }
                     }

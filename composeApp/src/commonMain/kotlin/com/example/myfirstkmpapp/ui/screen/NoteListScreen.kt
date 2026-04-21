@@ -78,11 +78,11 @@ class NoteListScreen(val viewModel: NoteViewModel) : Screen {
                         .padding(bottom = 24.dp)
                         .shadow(4.dp, MaterialTheme.shapes.medium, ambientColor = palette.shadowDark),
                     shape = MaterialTheme.shapes.medium,
-                    colors = TextFieldDefaults.colors(
+                    colors = OutlinedTextFieldDefaults.colors(
                         focusedContainerColor = palette.surface,
                         unfocusedContainerColor = palette.surface,
-                        focusedIndicatorColor = palette.primary,
-                        unfocusedIndicatorColor = palette.onSurfaceLight.copy(alpha = 0.2f),
+                        focusedBorderColor = palette.primary,
+                        unfocusedBorderColor = palette.onSurfaceLight.copy(alpha = 0.2f),
                         cursorColor = palette.primary
                     ),
                     singleLine = true

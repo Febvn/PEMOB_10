@@ -50,7 +50,7 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.DarkMode, contentDescription = null, color = palette.primary)
+                    Icon(Icons.Default.DarkMode, contentDescription = null, tint = palette.primary)
                     Spacer(modifier = Modifier.width(16.dp))
                     Text("Dark Mode", style = MaterialTheme.typography.bodyLarge, color = palette.onSurface)
                 }
@@ -61,12 +61,12 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                 )
             }
 
-            Divider(color = palette.onSurfaceLight.copy(alpha = 0.1f))
+            HorizontalDivider(color = palette.onSurfaceLight.copy(alpha = 0.1f))
 
             // Sort Order Setting
             Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
-                    Icon(Icons.Default.Sort, contentDescription = null, color = palette.primary)
+                    Icon(Icons.Default.Sort, contentDescription = null, tint = palette.primary)
                     Spacer(modifier = Modifier.width(16.dp))
                     Text("Sort Order", style = MaterialTheme.typography.bodyLarge, color = palette.onSurface)
                 }

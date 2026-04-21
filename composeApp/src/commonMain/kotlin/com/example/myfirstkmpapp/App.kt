@@ -10,9 +10,6 @@ import com.example.myfirstkmpapp.viewmodel.NoteViewModel
 import cafe.adriel.voyager.navigator.Navigator
 import cafe.adriel.voyager.transitions.SlideTransition
 import com.example.myfirstkmpapp.navigation.MainScreen
-import com.example.myfirstkmpapp.news.ui.viewmodel.NewsViewModel
-import com.example.myfirstkmpapp.news.repository.NewsRepository
-import com.example.myfirstkmpapp.news.data.remote.NewsApiService
 import com.example.myfirstkmpapp.viewmodel.SettingsViewModel
 
 /**
@@ -31,9 +28,6 @@ fun App(dependencyContainer: DependencyContainer) {
             settingsViewModel.sortOrder
         ) 
     }
-    val newsViewModel: NewsViewModel = viewModel { 
-        NewsViewModel(NewsRepository(NewsApiService())) 
-    }
     val profileViewModel: ProfileViewModel = viewModel { ProfileViewModel() }
     
     val profileState by profileViewModel.uiState.collectAsState()
@@ -43,7 +37,7 @@ fun App(dependencyContainer: DependencyContainer) {
         palette = profileState.currentPalette,
         isDark = isDarkMode
     ) {
-        Navigator(MainScreen(noteViewModel, profileViewModel, newsViewModel, settingsViewModel)) { navigator ->
+        Navigator(MainScreen(noteViewModel, profileViewModel, settingsViewModel)) { navigator ->
             SlideTransition(navigator)
         }
     }

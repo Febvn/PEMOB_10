@@ -42,7 +42,6 @@ kotlin {
         androidMain.dependencies {
             implementation(libs.compose.uiToolingPreview)
             implementation(libs.androidx.activity.compose)
-            implementation(libs.ktor.client.okhttp)
             implementation(libs.sqldelight.android.driver)
         }
         commonMain.dependencies {
@@ -64,16 +63,6 @@ kotlin {
             implementation(libs.voyager.transitions)
             implementation(libs.voyager.koin)
             
-            // Ktor & Serialization
-            implementation(libs.ktor.client.core)
-            implementation(libs.ktor.client.content.negotiation)
-            implementation(libs.ktor.serialization.kotlinx.json)
-            implementation(libs.ktor.client.logging)
-            
-            // Coil
-            implementation(libs.coil.compose)
-            implementation(libs.coil.network.ktor)
-            
             // DataStore
             implementation(libs.okio)
             implementation(libs.datastore.preferences.core)
@@ -88,7 +77,6 @@ kotlin {
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
-            implementation(libs.ktor.client.java)
             implementation(libs.kotlinx.datetime)
             implementation(libs.sqldelight.sqlite.driver)
         }

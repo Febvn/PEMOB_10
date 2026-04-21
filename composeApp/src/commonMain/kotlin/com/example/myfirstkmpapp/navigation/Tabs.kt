@@ -16,8 +16,6 @@ import com.example.myfirstkmpapp.ui.screen.NoteListScreen
 import com.example.myfirstkmpapp.ui.screen.ProfileScreen
 import com.example.myfirstkmpapp.viewmodel.NoteViewModel
 import com.example.myfirstkmpapp.viewmodel.ProfileViewModel
-import com.example.myfirstkmpapp.news.ui.viewmodel.NewsViewModel
-import com.example.myfirstkmpapp.news.ui.screen.NewsFavoritesScreen
 
 import com.example.myfirstkmpapp.viewmodel.SettingsViewModel
 import com.example.myfirstkmpapp.ui.screen.SettingsScreen
@@ -45,7 +43,7 @@ class NotesTab(private val noteViewModel: NoteViewModel) : Tab {
     }
 }
 
-class FavoritesTab(private val newsViewModel: NewsViewModel) : Tab {
+class FavoritesTab(private val noteViewModel: NoteViewModel) : Tab {
     override val options: TabOptions
         @Composable
         get() {
@@ -53,7 +51,7 @@ class FavoritesTab(private val newsViewModel: NewsViewModel) : Tab {
             return remember {
                 TabOptions(
                     index = 2u,
-                    title = "Saved",
+                    title = "Favorite",
                     icon = icon
                 )
             }
@@ -61,7 +59,7 @@ class FavoritesTab(private val newsViewModel: NewsViewModel) : Tab {
 
     @Composable
     override fun Content() {
-        Navigator(NewsFavoritesScreen(newsViewModel)) { navigator ->
+        Navigator(FavoritesScreen(noteViewModel)) { navigator ->
             SlideTransition(navigator)
         }
     }

@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.myfirstkmpapp.data.Note
 import com.example.myfirstkmpapp.repository.NoteRepository
+import com.example.myfirstkmpapp.currentTimeMillis
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 
@@ -28,6 +30,7 @@ class NoteViewModel(
         observeNotes()
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private fun observeNotes() {
         combine(_searchQuery, sortOrderFlow) { query, sort ->
             query to sort
@@ -60,25 +63,29 @@ class NoteViewModel(
     }
 
     fun addNote(title: String, content: String, color: Long = 0xFFFFFFFF) {
+        println("VM: addNote called - title='$title'")
         viewModelScope.launch {
             repository.insertNote(
                 Note(
                     title = title,
                     content = content,
                     color = color,
-                    timestamp = kotlinx.datetime.Clock.System.now().toEpochMilliseconds()
+                    timestamp = currentTimeMillis()
                 )
             )
+            println("VM: addNote completed")
         }
     }
 
     fun updateNote(updatedNote: Note) {
+        println("VM: updateNote called - id=${updatedNote.id}")
         viewModelScope.launch {
-            repository.updateNote(updatedNote)
+            repository.updateNote(updatedNote.copy(timestamp = currentTimeMillis()))
         }
     }
 
     fun deleteNote(id: Long) {
+        println("VM: deleteNote called - id=$id")
         viewModelScope.launch {
             repository.deleteNote(id)
         }
@@ -91,8 +98,6 @@ class NoteViewModel(
     }
 
     fun getNoteById(id: Long): Note? {
-        // Since we have a list in state, we can find it there for synchronous UI feedback
-        // or fetch from repo if needed. For Compose details, finding in state is fine.
         return _uiState.value.notes.find { it.id == id }
     }
 }
