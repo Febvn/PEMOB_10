@@ -36,15 +36,23 @@ CREATE TABLE IF NOT EXISTS NoteEntity (
 - [📺 Lihat Video Demo (CRUD, Search, dan Offline Mode)](demo_local%20storage.mp4)
 
 ### Galeri Tampilan Aplikasi
-Berikut adalah representasi visual fungsionalitas sistem:
+Berikut adalah dokumentasi visual antarmuka pengguna aplikasi Note yang mencakup proses pembuatan catatan, fitur pencarian, menu pengaturan, serta representasi data dalam database lokal.
 
-| Tampilan 1 | Tampilan 2 | Tampilan 3 |
-|:---:|:---:|:---:|
-| ![Note Baru](note%20baru.JPG) | ![Pencarian](seaarch%20query%20funtcion.JPG) | ![Pengaturan](setting_note%20functionf.JPG) |
-
-| Tampilan 4 | Tampilan 5 |
-|:---:|:---:|
-| ![2 Note](there%20is%202%20note.JPG) | ![1 Note](there%20is%20a%20note.JPG) |
+<div align="center">
+  <table style="border: none;">
+    <tr>
+      <td align="center"><img src="note%20baru.JPG" width="200"/><br/><sub>Tambah Note Baru</sub></td>
+      <td align="center"><img src="seaarch%20query%20funtcion.JPG" width="200"/><br/><sub>Fitur Pencarian</sub></td>
+      <td align="center"><img src="setting_note%20functionf.JPG" width="200"/><br/><sub>Menu Pengaturan</sub></td>
+    </tr>
+  </table>
+  <table style="border: none;">
+    <tr>
+      <td align="center"><img src="there%20is%202%20note.JPG" width="200"/><br/><sub>Daftar 2 Catatan</sub></td>
+      <td align="center"><img src="there%20is%20a%20note.JPG" width="200"/><br/><sub>Daftar 1 Catatan</sub></td>
+    </tr>
+  </table>
+</div>
 
 ---
 **Pengembangan Aplikasi Mobile - ITERA 2024**  
