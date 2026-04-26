@@ -65,8 +65,9 @@ graph TD
 | ![Network Indicator](signal_ndikator.JPG) | ![Device Info](device%20ingo.JPG) |
 
 ### Video Demo
-Tonton atau unduh video demo fitur platform (Dependency Injection, Network Status, & Device Info) di sini:
-[Download/Nonton Video Demo](https://github.com/Febvn/pemob_8/raw/week-8/demo_network.mp4)
+Tonton video demo fitur platform (Dependency Injection, Network Status, & Device Info) di bawah ini:
+
+https://github.com/user-attachments/assets/3c30b563-8493-4615-8e7e-04e95ae84db2
 
 ## Tech Stack
 - **Kotlin Multiplatform (KMP)**
