@@ -66,7 +66,7 @@ graph TD
 
 ### Video Demo
 Tonton atau unduh video demo fitur platform (Dependency Injection, Network Status, & Device Info) di sini:
-[Download/Nonton Video Demo](demo_network.mp4?raw=true)
+[Download/Nonton Video Demo](https://github.com/Febvn/pemob_8/raw/week-8/demo_network.mp4)
 
 ## Tech Stack
 - **Kotlin Multiplatform (KMP)**
