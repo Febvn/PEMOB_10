@@ -8,6 +8,9 @@ import com.example.myfirstkmpapp.currentTimeMillis
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import com.example.myfirstkmpapp.repository.SettingsRepository
+import com.example.myfirstkmpapp.util.NetworkMonitor
+import com.example.myfirstkmpapp.util.ShareManager
 
 data class NoteUiState(
     val notes: List<Note> = emptyList(),
@@ -16,10 +19,20 @@ data class NoteUiState(
     val searchQuery: String = ""
 )
 
+
 class NoteViewModel(
     private val repository: NoteRepository,
-    private val sortOrderFlow: Flow<String> = flowOf("Newest")
+    private val settingsRepository: SettingsRepository,
+    networkMonitor: NetworkMonitor,
+    private val shareManager: ShareManager
 ) : ViewModel() {
+    val isOnline: StateFlow<Boolean> = networkMonitor.isOnline
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
+    val latency: StateFlow<Long> = networkMonitor.latency
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), 0L)
+
+    private val sortOrderFlow = settingsRepository.sortOrder
     private val _searchQuery = MutableStateFlow("")
     val searchQuery = _searchQuery.asStateFlow()
 
@@ -99,5 +112,10 @@ class NoteViewModel(
 
     fun getNoteById(id: Long): Note? {
         return _uiState.value.notes.find { it.id == id }
+    }
+
+    fun shareNote(note: Note) {
+        val text = "--- ${note.title} ---\n\n${note.content}"
+        shareManager.shareText(text, "Share ${note.title}")
     }
 }

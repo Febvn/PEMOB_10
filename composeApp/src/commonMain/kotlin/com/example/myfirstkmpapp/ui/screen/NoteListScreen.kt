@@ -51,15 +51,47 @@ class NoteListScreen(val viewModel: NoteViewModel) : Screen {
             ) {
                 Spacer(modifier = Modifier.height(24.dp))
                 
-                Text(
-                    text = "My Notes",
-                    style = MaterialTheme.typography.headlineMedium.copy(
-                        fontWeight = FontWeight.ExtraBold,
-                        color = palette.onSurface,
-                        letterSpacing = 1.sp
-                    ),
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = "My Notes",
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.ExtraBold,
+                            color = palette.onSurface,
+                            letterSpacing = 1.sp
+                        )
+                    )
+                    
+                    val isOnline by viewModel.isOnline.collectAsState()
+                    Surface(
+                        color = if (isOnline) palette.success.copy(alpha = 0.1f) else palette.error.copy(alpha = 0.1f),
+                        shape = MaterialTheme.shapes.extraSmall,
+                    ) {
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .size(8.dp)
+                                    .background(
+                                        color = if (isOnline) palette.success else palette.error,
+                                        shape = CircleShape
+                                    )
+                            )
+                            Spacer(modifier = Modifier.width(6.dp))
+                            Text(
+                                text = if (isOnline) "Online" else "Offline",
+                                style = MaterialTheme.typography.labelSmall,
+                                color = if (isOnline) palette.success else palette.error,
+                                fontWeight = FontWeight.Bold
+                            )
+                        }
+                    }
+                }
                 
                 Text(
                     text = "${uiState.notes.size} notes stored locally",

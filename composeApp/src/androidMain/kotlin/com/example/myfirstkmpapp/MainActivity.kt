@@ -12,12 +12,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
 
-        val driverFactory = com.example.myfirstkmpapp.database.DriverFactory(this)
-        val dataStore = com.example.myfirstkmpapp.util.createDataStore(this)
-        val container = DependencyContainer(driverFactory, dataStore)
-
         setContent {
-            App(container)
+            App()
         }
     }
 }

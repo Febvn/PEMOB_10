@@ -92,6 +92,47 @@ fun SettingsScreen(viewModel: SettingsViewModel) {
                     }
                 }
             }
+            HorizontalDivider(color = palette.onSurfaceLight.copy(alpha = 0.1f))
+
+            // Device Info
+            Column(modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)) {
+                Text(
+                    text = "Device Information",
+                    style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                    color = palette.primary,
+                    modifier = Modifier.padding(bottom = 12.dp)
+                )
+                
+                InfoRow("Model", viewModel.deviceInfo.getModel(), palette.onSurface)
+                InfoRow("Manufacturer", viewModel.deviceInfo.getManufacturer(), palette.onSurface)
+                InfoRow("OS Version", viewModel.deviceInfo.getOSVersion(), palette.onSurface)
+                InfoRow("Platform", viewModel.deviceInfo.getPlatform(), palette.onSurface)
+                
+                Spacer(modifier = Modifier.height(8.dp))
+                
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Battery Level", color = palette.onSurface)
+                    Text(
+                        "${viewModel.batteryInfo.getBatteryLevel()}% ${if (viewModel.batteryInfo.isCharging()) "(Charging)" else ""}",
+                        color = palette.onSurface,
+                        fontWeight = FontWeight.Bold
+                    )
+                }
+            }
         }
+    }
+}
+
+@Composable
+fun InfoRow(label: String, value: String, color: androidx.compose.ui.graphics.Color) {
+    Row(
+        modifier = Modifier.fillMaxWidth().padding(vertical = 4.dp),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        Text(label, color = color.copy(alpha = 0.7f))
+        Text(value, color = color, fontWeight = FontWeight.Medium)
     }
 }

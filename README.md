@@ -1,61 +1,81 @@
-# Notes App - Tugas Praktikum Minggu 7
+# Notes App - Tugas Praktikum Minggu 8
 
-Upgrade Notes App dengan fitur SQLDelight untuk penyimpanan lokal, fitur pencarian, dan pengaturan tema menggunakan DataStore. Aplikasi ini mendukung penuh mode Offline-First.
+Upgrade Notes App dengan Platform Features: Koin Dependency Injection, Device Information, dan Network Monitoring menggunakan pola expect/actual.
 
-## Fitur Utama
-- CRUD Operations: Tambah, Baca, Edit, dan Hapus catatan secara permanen.
-- Local Storage (SQLDelight): Menggunakan SQLite untuk menyimpan data secara lokal di perangkat.
-- Search Functionality: Mencari catatan berdasarkan judul atau isi konten secara real-time.
-- Settings & DataStore: Menyimpan preferensi pengguna (Dark Mode & Sort Order) secara persisten.
-- Favorite System: Menandai catatan penting sebagai favorit.
-- Offline-First: Aplikasi berfungsi 100% tanpa koneksi internet.
+## Fitur Baru (Week 8)
+- **Koin Dependency Injection**: Seluruh dependensi (Database, Repository, ViewModel, Platform Utils) dikelola menggunakan Koin DI secara menyeluruh.
+- **Device Information (Expect/Actual)**: Menampilkan detail perangkat (Model, Manufacturer, OS Version, Platform) di layar Settings secara dinamis.
+- **Network Monitoring (Expect/Actual)**: Indikator status jaringan (Online/Offline) dan **Real-time Latency (Ping)** di layar utama.
+- **Battery Status**: Menampilkan level baterai dan status pengisian daya di layar Settings.
+- **Share Note (Platform Feature)**: Membagikan konten catatan menggunakan fitur share sistem.
 
-## Tech Stack
-- Kotlin Multiplatform (KMP): Target Desktop (JVM) & Android.
-- Compose Multiplatform: Untuk UI yang konsisten di berbagai platform.
-- SQLDelight: Database engine untuk persistensi data lokal.
-- Jetpack DataStore: Untuk menyimpan preferensi pengaturan sederhana.
-- Voyager: Untuk navigasi antar layar.
-
-## Database Schema (SQLDelight)
-```sql
-CREATE TABLE IF NOT EXISTS NoteEntity (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    title TEXT NOT NULL,
-    content TEXT NOT NULL,
-    color INTEGER NOT NULL,
-    isFavorite INTEGER NOT NULL DEFAULT 0,
-    timestamp INTEGER NOT NULL,
-    cloudId TEXT
-);
+## Architecture Diagram
+```mermaid
+graph TD
+    subgraph Common Module
+        App[App.kt] --> Navigator
+        Navigator --> MainScreen
+        MainScreen --> Tabs
+        Tabs --> NoteListScreen
+        Tabs --> SettingsScreen
+        
+        NoteViewModel --> NoteRepository
+        NoteViewModel --> NetworkMonitor
+        SettingsViewModel --> SettingsRepository
+        SettingsViewModel --> DeviceInfo
+        SettingsViewModel --> BatteryInfo
+        
+        NoteRepository --> AppDatabase
+        SettingsRepository --> DataStore
+        
+        Koin[Koin DI] -.->|Injects| NoteViewModel
+        Koin -.->|Injects| SettingsViewModel
+    end
+    
+    subgraph Platform Specific
+        subgraph Android
+            AndroidApp[AndroidApp] -->|Starts| Koin
+            DeviceInfoActualA[DeviceInfo Actual]
+            NetworkMonitorActualA[NetworkMonitor Actual]
+            BatteryInfoActualA[BatteryInfo Actual]
+        end
+        
+        subgraph Desktop JVM
+            MainKt[Main.kt] -->|Starts| Koin
+            DeviceInfoActualJ[DeviceInfo Actual]
+            NetworkMonitorActualJ[NetworkMonitor Actual]
+            BatteryInfoActualJ[BatteryInfo Actual]
+        end
+    end
+    
+    DeviceInfoActualA -- implements --> DeviceInfo
+    NetworkMonitorActualA -- implements --> NetworkMonitor
+    BatteryInfoActualA -- implements --> BatteryInfo
+    
+    DeviceInfoActualJ -- implements --> DeviceInfo
+    NetworkMonitorActualJ -- implements --> NetworkMonitor
+    BatteryInfoActualJ -- implements --> BatteryInfo
 ```
 
-## Dokumentasi dan Demo
+## Dokumentasi Visual (Praktikum 8)
 
-### Video Demo Utama
-- [📺 Lihat Video Demo (CRUD, Search, dan Offline Mode)](demo_local%20storage.mp4)
+### Screenshots
+| Network Status Indicator | Device Information (Settings) |
+|:---:|:---:|
+| ![Network Indicator](signal_ndikator.JPG) | ![Device Info](device%20ingo.JPG) |
 
-### Galeri Tampilan Aplikasi
-Berikut adalah dokumentasi visual antarmuka pengguna aplikasi Note yang mencakup proses pembuatan catatan, fitur pencarian, menu pengaturan, serta representasi data dalam database lokal.
+### Video Demo
+Tonton video demo fitur platform (Dependency Injection, Network Status, & Device Info) di sini:
+[Demo Network & Platform Features](demo_network.mp4)
 
-<div align="center">
-  <table style="border: none;">
-    <tr>
-      <td align="center"><img src="note%20baru.JPG" width="200"/><br/><sub>Tambah Note Baru</sub></td>
-      <td align="center"><img src="seaarch%20query%20funtcion.JPG" width="200"/><br/><sub>Fitur Pencarian</sub></td>
-      <td align="center"><img src="setting_note%20functionf.JPG" width="200"/><br/><sub>Menu Pengaturan</sub></td>
-    </tr>
-  </table>
-  <table style="border: none;">
-    <tr>
-      <td align="center"><img src="there%20is%202%20note.JPG" width="200"/><br/><sub>Daftar 2 Catatan</sub></td>
-      <td align="center"><img src="there%20is%20a%20note.JPG" width="200"/><br/><sub>Daftar 1 Catatan</sub></td>
-    </tr>
-  </table>
-</div>
+## Tech Stack
+- **Kotlin Multiplatform (KMP)**
+- **Compose Multiplatform**
+- **Koin DI**: Dependency Injection core, android, and compose.
+- **SQLDelight**: Local Database.
+- **Jetpack DataStore**: Persistent Settings.
+- **Voyager**: Navigation with Koin integration.
 
 ---
 **Pengembangan Aplikasi Mobile - ITERA 2024**  
-**Nama:** (Isi Nama Anda)  
-**NIM:** (Isi NIM Anda)  
-**Repository:** [Febvn/pemob_7](https://github.com/Febvn/pemob_7) (Branch: week-7)
+**Repository:** [Febvn/pemob_8](https://github.com/Febvn/pemob_8) (Branch: week-8)

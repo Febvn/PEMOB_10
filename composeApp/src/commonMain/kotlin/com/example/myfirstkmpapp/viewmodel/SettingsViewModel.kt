@@ -8,7 +8,14 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
-class SettingsViewModel(private val repository: SettingsRepository) : ViewModel() {
+import com.example.myfirstkmpapp.util.DeviceInfo
+import com.example.myfirstkmpapp.util.BatteryInfo
+
+class SettingsViewModel(
+    private val repository: SettingsRepository,
+    val deviceInfo: DeviceInfo,
+    val batteryInfo: BatteryInfo
+) : ViewModel() {
 
     val isDarkMode: StateFlow<Boolean> = repository.isDarkMode
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)

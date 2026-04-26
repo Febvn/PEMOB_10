@@ -7,6 +7,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -43,6 +44,9 @@ class NoteDetailScreen(private val noteId: Long, private val viewModel: NoteView
                         }
                     },
                     actions = {
+                        IconButton(onClick = { viewModel.shareNote(note) }) {
+                            Icon(Icons.Default.Share, contentDescription = "Share", tint = palette.primary)
+                        }
                         IconButton(onClick = { navigator.push(EditNoteScreen(noteId, viewModel)) }) {
                             Icon(Icons.Outlined.Edit, contentDescription = "Edit")
                         }

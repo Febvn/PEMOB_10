@@ -17,18 +17,13 @@ import com.example.myfirstkmpapp.viewmodel.SettingsViewModel
  *
  * Menerapkan SkeuomorphicTheme dan mengelola navigasi utama menggunakan Voyager.
  */
+import org.koin.compose.viewmodel.koinViewModel
+
 @Composable
-fun App(dependencyContainer: DependencyContainer) {
-    val settingsViewModel: SettingsViewModel = viewModel { 
-        SettingsViewModel(dependencyContainer.settingsRepository) 
-    }
-    val noteViewModel: NoteViewModel = viewModel { 
-        NoteViewModel(
-            dependencyContainer.noteRepository,
-            settingsViewModel.sortOrder
-        ) 
-    }
-    val profileViewModel: ProfileViewModel = viewModel { ProfileViewModel() }
+fun App() {
+    val settingsViewModel: SettingsViewModel = koinViewModel()
+    val noteViewModel: NoteViewModel = koinViewModel()
+    val profileViewModel: ProfileViewModel = koinViewModel()
     
     val profileState by profileViewModel.uiState.collectAsState()
     val isDarkMode by settingsViewModel.isDarkMode.collectAsState()
