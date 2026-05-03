@@ -44,6 +44,7 @@ kotlin {
             implementation(libs.androidx.activity.compose)
             implementation(libs.sqldelight.android.driver)
             implementation(libs.koin.android)
+            implementation(libs.ktor.client.okhttp)
         }
         commonMain.dependencies {
             implementation(libs.compose.runtime)
@@ -75,16 +76,28 @@ kotlin {
             
             // SQLDelight Coroutines
             implementation(libs.sqldelight.coroutines.extensions)
+
+            // Ktor for AI
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.client.content.negotiation)
+            implementation(libs.ktor.serialization.kotlinx.json)
+            implementation(libs.ktor.client.logging)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
             implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+        }
+        sourceSets.maybeCreate("iosMain").apply {
+            dependencies {
+                implementation(libs.ktor.client.darwin)
+            }
         }
         jvmMain.dependencies {
             implementation(compose.desktop.currentOs)
             implementation(libs.kotlinx.coroutinesSwing)
             implementation(libs.kotlinx.datetime)
             implementation(libs.sqldelight.sqlite.driver)
+            implementation(libs.ktor.client.java)
         }
     }
 }

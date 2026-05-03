@@ -10,6 +10,7 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Save
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -48,6 +49,43 @@ class AddNoteScreen(private val viewModel: NoteViewModel) : Screen {
                         }
                     },
                     actions = {
+                        val uiState by viewModel.uiState.collectAsState()
+                        val snackbarHostState = remember { SnackbarHostState() }
+
+                        LaunchedEffect(uiState.aiError) {
+                            uiState.aiError?.let {
+                                snackbarHostState.showSnackbar(it)
+                            }
+                        }
+
+                        if (uiState.isAiLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp).padding(end = 16.dp),
+                                color = palette.primary,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            IconButton(
+                                onClick = {
+                                    if (content.isNotBlank()) {
+                                        viewModel.generateAiContent(
+                                            "Please improve and expand this note, keep it professional: $content"
+                                        ) { improvedContent ->
+                                            content = improvedContent
+                                        }
+                                    } else {
+                                        viewModel.generateAiContent(
+                                            "Give me a creative idea for a new note."
+                                        ) { aiSuggestion ->
+                                            content = aiSuggestion
+                                        }
+                                    }
+                                }
+                            ) {
+                                Icon(Icons.Outlined.AutoAwesome, contentDescription = "AI Assistant", tint = palette.primary)
+                            }
+                        }
+
                         IconButton(
                             onClick = {
                                 if (title.isNotBlank() || content.isNotBlank()) {
@@ -55,7 +93,7 @@ class AddNoteScreen(private val viewModel: NoteViewModel) : Screen {
                                     navigator.pop()
                                 }
                             },
-                            enabled = title.isNotBlank() || content.isNotBlank()
+                            enabled = (title.isNotBlank() || content.isNotBlank()) && !uiState.isAiLoading
                         ) {
                             Icon(Icons.Outlined.Save, contentDescription = "Save")
                         }
@@ -67,6 +105,16 @@ class AddNoteScreen(private val viewModel: NoteViewModel) : Screen {
                         actionIconContentColor = palette.primary
                     )
                 )
+            },
+            snackbarHost = { 
+                val uiState by viewModel.uiState.collectAsState()
+                if (uiState.aiError != null) {
+                    SnackbarHost(remember { SnackbarHostState() }.apply {
+                        LaunchedEffect(uiState.aiError) {
+                            showSnackbar(uiState.aiError!!)
+                        }
+                    })
+                }
             },
             containerColor = palette.background
         ) { padding ->

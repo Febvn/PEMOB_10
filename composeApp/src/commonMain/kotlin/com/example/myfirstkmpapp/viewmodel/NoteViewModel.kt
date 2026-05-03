@@ -11,12 +11,15 @@ import kotlinx.coroutines.launch
 import com.example.myfirstkmpapp.repository.SettingsRepository
 import com.example.myfirstkmpapp.util.NetworkMonitor
 import com.example.myfirstkmpapp.util.ShareManager
+import com.example.myfirstkmpapp.data.remote.GeminiService
 
 data class NoteUiState(
     val notes: List<Note> = emptyList(),
     val favorites: List<Note> = emptyList(),
     val isLoading: Boolean = false,
-    val searchQuery: String = ""
+    val searchQuery: String = "",
+    val isAiLoading: Boolean = false,
+    val aiError: String? = null
 )
 
 
@@ -24,7 +27,8 @@ class NoteViewModel(
     private val repository: NoteRepository,
     private val settingsRepository: SettingsRepository,
     networkMonitor: NetworkMonitor,
-    private val shareManager: ShareManager
+    private val shareManager: ShareManager,
+    private val geminiService: GeminiService
 ) : ViewModel() {
     val isOnline: StateFlow<Boolean> = networkMonitor.isOnline
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
@@ -117,5 +121,32 @@ class NoteViewModel(
     fun shareNote(note: Note) {
         val text = "--- ${note.title} ---\n\n${note.content}"
         shareManager.shareText(text, "Share ${note.title}")
+    }
+
+    fun generateAiContent(prompt: String, onResponse: (String) -> Unit) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isAiLoading = true, aiError = null) }
+            val result = geminiService.generateResponse(prompt)
+            result.onSuccess { text ->
+                _uiState.update { it.copy(isAiLoading = false) }
+                onResponse(text)
+            }.onFailure { error ->
+                _uiState.update { it.copy(isAiLoading = false, aiError = error.message) }
+            }
+        }
+    }
+
+    fun translateNote(note: Note, targetLanguage: String = "English") {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isAiLoading = true, aiError = null) }
+            val prompt = "Translate the following note content to $targetLanguage. Keep the original meaning and tone: ${note.content}"
+            val result = geminiService.generateResponse(prompt)
+            result.onSuccess { translatedText ->
+                _uiState.update { it.copy(isAiLoading = false) }
+                repository.updateNote(note.copy(content = translatedText, timestamp = currentTimeMillis()))
+            }.onFailure { error ->
+                _uiState.update { it.copy(isAiLoading = false, aiError = error.message) }
+            }
+        }
     }
 }

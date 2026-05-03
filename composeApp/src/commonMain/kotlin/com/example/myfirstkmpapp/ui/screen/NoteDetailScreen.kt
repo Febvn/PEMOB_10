@@ -9,8 +9,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.outlined.Edit
+import androidx.compose.material.icons.outlined.Translate
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -44,6 +45,24 @@ class NoteDetailScreen(private val noteId: Long, private val viewModel: NoteView
                         }
                     },
                     actions = {
+                        val uiState by viewModel.uiState.collectAsState()
+                        
+                        if (uiState.isAiLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp).padding(end = 16.dp),
+                                color = palette.primary,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            IconButton(onClick = { 
+                                // Deteksi bahasa sederhana: jika mengandung banyak kata umum Indonesia, terjemahkan ke Inggris, dan sebaliknya
+                                val targetLang = if (note.content.contains("yang") || note.content.contains("dan")) "English" else "Indonesian"
+                                viewModel.translateNote(note, targetLang) 
+                            }) {
+                                Icon(Icons.Outlined.Translate, contentDescription = "Translate", tint = palette.primary)
+                            }
+                        }
+
                         IconButton(onClick = { viewModel.shareNote(note) }) {
                             Icon(Icons.Default.Share, contentDescription = "Share", tint = palette.primary)
                         }
@@ -58,6 +77,16 @@ class NoteDetailScreen(private val noteId: Long, private val viewModel: NoteView
                         actionIconContentColor = palette.primary
                     )
                 )
+            },
+            snackbarHost = { 
+                val uiState by viewModel.uiState.collectAsState()
+                if (uiState.aiError != null) {
+                    SnackbarHost(remember { SnackbarHostState() }.apply {
+                        LaunchedEffect(uiState.aiError) {
+                            showSnackbar(uiState.aiError!!)
+                        }
+                    })
+                }
             },
             containerColor = palette.background
         ) { padding ->

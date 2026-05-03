@@ -6,6 +6,7 @@ import com.example.myfirstkmpapp.repository.SettingsRepository
 import com.example.myfirstkmpapp.viewmodel.NoteViewModel
 import com.example.myfirstkmpapp.viewmodel.ProfileViewModel
 import com.example.myfirstkmpapp.viewmodel.SettingsViewModel
+import com.example.myfirstkmpapp.data.remote.GeminiService
 import org.koin.core.context.startKoin
 import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
@@ -26,6 +27,8 @@ val commonModule = module {
     single { createDatabase(get()) }
     single { NoteRepository(get()) }
     single { SettingsRepository(get()) }
+    
+    single { GeminiService() }
     
     viewModelOf(::SettingsViewModel)
     viewModelOf(::NoteViewModel)

@@ -9,6 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material.icons.outlined.Save
+import androidx.compose.material.icons.outlined.AutoAwesome
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -48,6 +49,30 @@ class EditNoteScreen(private val noteId: Long, private val viewModel: NoteViewMo
                         }
                     },
                     actions = {
+                        val uiState by viewModel.uiState.collectAsState()
+                        
+                        if (uiState.isAiLoading) {
+                            CircularProgressIndicator(
+                                modifier = Modifier.size(24.dp).padding(end = 16.dp),
+                                color = palette.primary,
+                                strokeWidth = 2.dp
+                            )
+                        } else {
+                            IconButton(
+                                onClick = {
+                                    if (content.isNotBlank()) {
+                                        viewModel.generateAiContent(
+                                            "Please improve and expand this note, keep it professional: $content"
+                                        ) { improvedContent ->
+                                            content = improvedContent
+                                        }
+                                    }
+                                }
+                            ) {
+                                Icon(Icons.Outlined.AutoAwesome, contentDescription = "AI Assistant", tint = palette.primary)
+                            }
+                        }
+
                         IconButton(onClick = { 
                             viewModel.deleteNote(noteId)
                             navigator.popUntil { it is NoteListScreen }
@@ -61,7 +86,7 @@ class EditNoteScreen(private val noteId: Long, private val viewModel: NoteViewMo
                                     navigator.pop()
                                 }
                             },
-                            enabled = title.isNotBlank() || content.isNotBlank()
+                            enabled = (title.isNotBlank() || content.isNotBlank()) && !uiState.isAiLoading
                         ) {
                             Icon(Icons.Outlined.Save, contentDescription = "Save")
                         }
@@ -73,6 +98,16 @@ class EditNoteScreen(private val noteId: Long, private val viewModel: NoteViewMo
                         actionIconContentColor = palette.primary
                     )
                 )
+            },
+            snackbarHost = { 
+                val uiState by viewModel.uiState.collectAsState()
+                if (uiState.aiError != null) {
+                    SnackbarHost(remember { SnackbarHostState() }.apply {
+                        LaunchedEffect(uiState.aiError) {
+                            showSnackbar(uiState.aiError!!)
+                        }
+                    })
+                }
             },
             containerColor = palette.background
         ) { padding ->
