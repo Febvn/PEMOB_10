@@ -2,7 +2,7 @@
 
 Aplikasi Catatan Pintar (Notes App) yang dikembangkan menggunakan **Kotlin Multiplatform (KMP)** dan **Compose Multiplatform**. Versi ini memperkenalkan fitur kecerdasan buatan (AI) terintegrasi menggunakan **Gemini API** untuk membantu produktivitas pengguna.
 
-## 🚀 Fitur Unggulan (Minggu 09: Smart AI Integration)
+## Fitur Unggulan (Minggu 09: Smart AI Integration)
 
 Fokus utama pada praktikum ini adalah integrasi **AI Note Maker** yang memungkinkan interaksi cerdas antara pengguna dan catatan mereka.
 
@@ -16,7 +16,7 @@ Fokus utama pada praktikum ini adalah integrasi **AI Note Maker** yang memungkin
 - **Loading State Indicator**: UI yang responsif dengan indikator progres saat AI sedang memproses permintaan.
 - **Error Handling**: Penanganan error jaringan atau API menggunakan Snackbar untuk memberikan feedback yang jelas kepada pengguna.
 
-## 📸 Dokumentasi Visual (Praktikum 09)
+## Dokumentasi Visual (Praktikum 09)
 
 | AI Prompt Interface | AI Generation Result |
 |:---:|:---:|
@@ -24,7 +24,7 @@ Fokus utama pada praktikum ini adalah integrasi **AI Note Maker** yang memungkin
 
 > **Keterangan**: Gambar di atas menunjukkan proses penggunaan AI Assistant untuk menghasilkan ide catatan secara otomatis dari layar "Add Note".
 
-## 🛠️ Fitur Platform & Arsitektur (Minggu 08)
+## Fitur Platform & Arsitektur (Minggu 08)
 
 Selain fitur AI, aplikasi ini tetap mempertahankan fondasi kokoh dari praktikum sebelumnya:
 - **Koin Dependency Injection**: Manajemen dependensi yang bersih untuk Database, Repository, dan Service.
@@ -32,7 +32,7 @@ Selain fitur AI, aplikasi ini tetap mempertahankan fondasi kokoh dari praktikum 
 - **Network Monitoring**: Indikator status jaringan real-time dengan informasi **Ping/Latency**.
 - **Platform Features**: Fitur Share catatan menggunakan *Native Sharing* di Android dan iOS.
 
-## 🏗️ Architecture Diagram
+## Architecture Diagram
 ```mermaid
 graph TD
     subgraph Common Module
@@ -67,7 +67,7 @@ graph TD
     end
 ```
 
-## 💻 Tech Stack
+## Tech Stack
 - **Language**: Kotlin
 - **UI Framework**: Compose Multiplatform
 - **DI Framework**: Koin
@@ -75,7 +75,7 @@ graph TD
 - **Local DB**: SQLDelight
 - **AI Engine**: Google Gemini API (Generative AI)
 
-## ⚙️ Cara Menjalankan Project
+## Cara Menjalankan Project
 1. Clone repository ini.
 2. Buka di Android Studio atau IntelliJ IDEA.
 3. Pastikan `JAVA_HOME` mengarah ke JDK 17 atau versi yang kompatibel (misalnya JetBrains Runtime).
@@ -85,4 +85,4 @@ graph TD
 
 ---
 **Pengembangan Aplikasi Mobile - ITERA 2024**  
-**Repository:** [Febvn/pemob_8](https://github.com/Febvn/pemob_8)
+**Repository:** [Febvn/pemob_9](https://github.com/Febvn/pemob_9)
