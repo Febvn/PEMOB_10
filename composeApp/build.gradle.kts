@@ -85,7 +85,15 @@ kotlin {
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
-            implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:1.7.3")
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.mockk)
+            implementation(libs.turbine)
+            implementation(libs.koin.test)
+        }
+        val androidUnitTest by getting {
+            dependencies {
+                implementation(libs.test.ui.junit4)
+            }
         }
         sourceSets.maybeCreate("iosMain").apply {
             dependencies {
@@ -131,6 +139,7 @@ android {
 
 dependencies {
     debugImplementation(libs.compose.uiTooling)
+    debugImplementation(libs.test.ui.manifest)
 }
 
 compose.desktop {

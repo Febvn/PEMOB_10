@@ -21,18 +21,29 @@ import org.koin.core.module.dsl.factoryOf
 expect val platformModule: Module
 
 /**
- * commonModule berisi dependensi utama aplikasi (Database, Repository, ViewModel).
+ * dataModule berisi dependensi untuk database dan repository.
  */
-val commonModule = module {
+val dataModule = module {
     single { createDatabase(get()) }
     single { NoteRepository(get()) }
     single { SettingsRepository(get()) }
-    
     single { GeminiService() }
-    
+}
+
+/**
+ * viewModelModule berisi dependensi untuk ViewModel.
+ */
+val viewModelModule = module {
     viewModelOf(::SettingsViewModel)
     viewModelOf(::NoteViewModel)
     viewModelOf(::ProfileViewModel)
+}
+
+/**
+ * commonModule menggabungkan dataModule dan viewModelModule.
+ */
+val commonModule = module {
+    includes(dataModule, viewModelModule)
 }
 
 /**

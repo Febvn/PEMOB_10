@@ -1,88 +1,45 @@
-# Notes App - Tugas Praktikum Minggu 09
+# Laporan Praktikum Minggu 10 - Pengembangan Aplikasi Mobile
 
-Aplikasi Catatan Pintar (Notes App) yang dikembangkan menggunakan **Kotlin Multiplatform (KMP)** dan **Compose Multiplatform**. Versi ini memperkenalkan fitur kecerdasan buatan (AI) terintegrasi menggunakan **Gemini API** untuk membantu produktivitas pengguna.
+Proyek ini berisi implementasi Dependency Injection (DI) menggunakan Koin dan pengujian otomatis (Testing) pada aplikasi Notes menggunakan Kotlin Multiplatform.
 
-## Fitur Unggulan (Minggu 09: Smart AI Integration)
+## Implementasi Dependency Injection (Koin)
 
-Fokus utama pada praktikum ini adalah integrasi **AI Note Maker** yang memungkinkan interaksi cerdas antara pengguna dan catatan mereka.
+Manajemen dependensi telah dipisahkan menjadi dua modul utama untuk menjaga kebersihan kode dan kemudahan pengujian:
+1. **dataModule**: Mengelola instance database SQLDelight, NoteRepository, SettingsRepository, dan GeminiService.
+2. **viewModelModule**: Mengelola semua ViewModel aplikasi (NoteViewModel, ProfileViewModel, dan SettingsViewModel).
 
-### 1. Smart AI Assistant (Gemini API)
-- **Note Generator**: Jika pengguna bingung ingin menulis apa, AI akan memberikan ide kreatif untuk catatan baru.
-- **Note Improvement**: Memperbaiki tata bahasa, memperluas poin-poin ide, dan mengubah nada tulisan menjadi lebih profesional secara otomatis.
-- **Contextual Understanding**: Menggunakan *System Instruction* untuk memastikan respon AI tetap relevan dengan konteks aplikasi catatan.
+Kedua modul tersebut digabungkan dalam commonModule yang diinisialisasi pada saat aplikasi dimulai.
 
-### 2. Fitur Pendukung AI
-- **Translation Feature**: Menerjemahkan isi catatan ke berbagai bahasa (Default: Inggris) dengan mempertahankan makna asli.
-- **Loading State Indicator**: UI yang responsif dengan indikator progres saat AI sedang memproses permintaan.
-- **Error Handling**: Penanganan error jaringan atau API menggunakan Snackbar untuk memberikan feedback yang jelas kepada pengguna.
+## Daftar Test Cases
 
-## Dokumentasi Visual (Praktikum 09)
+### 1. Unit Test: NoteRepository
+Pengujian dilakukan untuk memastikan integritas data pada layer repository:
+- **getAllNotes returns notes correctly**: Memastikan repository dapat mengambil dan memetakan data dari database.
+- **insertNote calls queries insertNote**: Memastikan fungsi penambahan catatan memanggil query database yang tepat.
+- **updateNote calls queries updateNote**: Memastikan fungsi pembaruan catatan memanggil query database yang tepat.
+- **deleteNote calls queries deleteNoteById**: Memastikan fungsi penghapusan catatan memanggil query database yang tepat.
+- **toggleFavorite calls queries updateFavoriteStatus**: Memastikan fungsi pengubahan status favorit memperbarui database dengan benar.
 
-| AI Prompt Interface | AI Generation Result |
-|:---:|:---:|
-| ![AI Prompt](ai%20note%20maker.JPG) | ![AI Result](ai%20note%20maker%20result.JPG) |
+### 2. Unit Test & Flow Test: NoteViewModel
+Pengujian pada layer ViewModel menggunakan MockK untuk dependensi dan Turbine untuk pengujian Flow:
+- **initial state is correct**: Memastikan StateFlow UI menginisialisasi state dengan benar (termasuk transisi loading).
+- **search query updates state**: Memastikan perubahan query pencarian diperbarui pada state secara reaktif.
+- **addNote calls repository insert**: Memastikan perintah penambahan catatan diteruskan ke repository.
+- **deleteNote calls repository delete**: Memastikan perintah penghapusan catatan diteruskan ke repository.
+- **uiState updates when repository emits new notes**: Menggunakan Turbine untuk memvalidasi bahwa UI State bereaksi terhadap emisi data baru dari repository.
 
-> **Keterangan**: Gambar di atas menunjukkan proses penggunaan AI Assistant untuk menghasilkan ide catatan secara otomatis dari layar "Add Note".
+### 3. UI Test: NoteListScreen
+Pengujian antarmuka menggunakan Compose Test Rule:
+- **emptyList_showsEmptyMessage**: Memastikan pesan "Empty Note List" muncul jika tidak ada data.
+- **notesList_showsNotes**: Memastikan daftar catatan ditampilkan dengan benar saat data tersedia.
+- **searchNoMatch_showsNoMatchMessage**: Memastikan pesan "No matches found" muncul saat hasil pencarian kosong.
 
-## Fitur Platform & Arsitektur (Minggu 08)
+## Video Demo Pengujian
 
-Selain fitur AI, aplikasi ini tetap mempertahankan fondasi kokoh dari praktikum sebelumnya:
-- **Koin Dependency Injection**: Manajemen dependensi yang bersih untuk Database, Repository, dan Service.
-- **Device Information**: Menampilkan detail perangkat (Model, OS, Platform) secara dinamis di layar Settings.
-- **Network Monitoring**: Indikator status jaringan real-time dengan informasi **Ping/Latency**.
-- **Platform Features**: Fitur Share catatan menggunakan *Native Sharing* di Android dan iOS.
+Berikut adalah rekaman proses menjalankan semua unit test dan UI test:
 
-## Architecture Diagram
-```mermaid
-graph TD
-    subgraph Common Module
-        App[App.kt] --> Navigator
-        Navigator --> MainScreen
-        MainScreen --> Tabs
-        Tabs --> NoteListScreen
-        Tabs --> SettingsScreen
-        
-        NoteViewModel --> NoteRepository
-        NoteViewModel --> GeminiService
-        NoteViewModel --> NetworkMonitor
-        SettingsViewModel --> DeviceInfo
-        
-        NoteRepository --> AppDatabase
-        GeminiService --> KtorClient[Ktor HTTP Client]
-    end
-    
-    subgraph External Services
-        KtorClient -->|POST| GeminiAPI[Google Gemini API]
-    end
-    
-    subgraph Platform Specific
-        subgraph Android
-            DeviceInfoActualA[DeviceInfo Actual]
-            NetworkMonitorActualA[NetworkMonitor Actual]
-        end
-        subgraph Desktop JVM
-            DeviceInfoActualJ[DeviceInfo Actual]
-            NetworkMonitorActualJ[NetworkMonitor Actual]
-        end
-    end
-```
-
-## Tech Stack
-- **Language**: Kotlin
-- **UI Framework**: Compose Multiplatform
-- **DI Framework**: Koin
-- **Networking**: Ktor Client
-- **Local DB**: SQLDelight
-- **AI Engine**: Google Gemini API (Generative AI)
-
-## Cara Menjalankan Project
-1. Clone repository ini.
-2. Buka di Android Studio atau IntelliJ IDEA.
-3. Pastikan `JAVA_HOME` mengarah ke JDK 17 atau versi yang kompatibel (misalnya JetBrains Runtime).
-4. Jalankan perintah Gradle:
-   - **Desktop**: `./gradlew :composeApp:run`
-   - **Android**: `./gradlew :composeApp:installDebug`
+![Video Demo](Demo%20video%20baru.mp4)
 
 ---
-**Pengembangan Aplikasi Mobile - ITERA 2024**  
-**Repository:** [Febvn/pemob_9](https://github.com/Febvn/pemob_9)
+**Program Studi Teknik Informatika**  
+**Institut Teknologi Sumatera**
