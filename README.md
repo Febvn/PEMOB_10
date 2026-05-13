@@ -38,7 +38,7 @@ Pengujian antarmuka menggunakan Compose Test Rule:
 
 Berikut adalah rekaman proses menjalankan semua unit test dan UI test:
 
-![Video Demo](Demo%20video%20baru.mp4)
+https://github.com/Febvn/PEMOB_10/blob/week-10/Demo%20video%20baru.mp4?raw=true
 
 ---
 **Program Studi Teknik Informatika**  
